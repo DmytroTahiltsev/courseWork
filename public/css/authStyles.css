@@ -1,0 +1,16 @@
+.registration{
+    width: 30%;
+    margin: 10px auto;
+
+    
+}
+.registration form{
+   margin: auto;
+}
+
+.form-floating input, .col-12 button{
+    width: 100%;
+}
+.col-12{
+    margin-top: 15px;
+}

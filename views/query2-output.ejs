@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>T</title>
+      <link rel="stylesheet" href="css/styles.css">
+    </head>
+    <body>
+        <%- include('partials/header')%>
+      <main>
+          <a href="/">main</a>
+          <form method="POST" action="/query2">
+            <h3>Введите номер</h3>
+            <input name="numb" type="text"> - 
+            <button type="submit">отправить</button>
+          </form> 
+          <div class="numb">Введенный номер: <%= reqData["numb"] %></div>
+          <div class="owners">
+            <div class="owner__type">Тип владельца: <%= owner %></div>
+              <% if(owner==='Організація'){%>
+                <table border="1">
+                  <tr>
+                      <th>Назва органцзації</th>
+                      <th>Район</th>
+                      <th>Адреса</th>
+                      <th>ПІБ керівника</th>
+                  </tr>
+                  <tr>
+                        <td><%=queryData[0]["Назва організації"] %></td>
+                        <td><%=queryData[0]["Район"] %></td>
+                        <td><%=queryData[0]["Адреса"] %></td>
+                        <td><%=queryData[0]["ПІБ керівника"] %></td>
+                  </tr>
+              </table>
+              <%}
+              else if(owner==='Приватний'){%>
+                <table border="1">
+                  <tr>
+                      <th>id</th>
+                      <th>ПІБ</th>
+                      <th>Адреса</th>
+                      <th>Телефон</th>
+                  </tr>
+                  <tr>
+                        <td><%=queryData[0]["id"] %></td>
+                        <td><%=queryData[0]["ПІБ"] %></td>
+                        <td><%=queryData[0]["Адреса"] %></td>
+                        <td><%=queryData[0]["Телефон"] %></td>
+                  </tr>
+              </table>
+                <%}%>
+          </div>
+      </main>
+    </body>
+    </html>
