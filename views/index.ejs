@@ -10,16 +10,37 @@
     <body>
         <%- include('partials/header', {regUrl:'auth/registration', loginUrl:'auth/login'})%>
       <main>
+        <%- include('partials/user', {user:user})%>
           <div>       
           </div>
           <ol>
-            <li>
-              <a href="query1">To query 1</a>
-            </li>
-            <li>
-              <a href="query2">To query 2</a>
-            </li>
+
+                <li>
+                  <a href="query1">To query 1</a>
+                </li>
+
+              <%- include('partials/list-item', {item:`
+                <li>
+                  <a href="query2">To query 2</a>
+                </li>
+                `})%>
+                <%- include('partials/list-item', {item:`
+                  <li>
+                    <a href="query3">To query 3</a>
+                  </li>
+                `})%>  
+                <%- include('partials/list-item', {item:`
+                  <li>
+                    <a href="addVehicle">Add vehicle</a>
+                  </li>
+                `})%>   
+                <%- include('partials/list-item', {item:`
+                  <li>
+                    <a href="deleteVehicle">Delete vehicle</a>
+                  </li>
+                `})%>                                
           </ol>
+          <a href="auth/logout">logout</a>
       </main>
     </body>
     </html>

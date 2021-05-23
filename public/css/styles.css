@@ -89,5 +89,31 @@
     .owners td{
         padding: 3px 5px;
     }
+    .add-type ul{
+        display: flex;
+        list-style-type: none;
+    }
+    .add-type li{
+        margin: 15px 30px;
+    }
+    .add-type a{
+        text-decoration: none;
+    }
+    .add-form input, .add-form select, .delete-form input{
+        margin: 5px 30px;
+    }
+    .add-form select{
+        padding: 1px 2px;
+    }
+    .add-form label, .delete-form label{
+        display: inline-block;
+        width: 120px;
+    }
+
+    .user-board{
+        margin: 5px 30px;
+        padding: 3px 5px;
+        background-color: rgb(248, 200, 200);
+    }
     
       

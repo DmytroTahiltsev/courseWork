@@ -1,0 +1,7 @@
+<%if(user){%>
+    <%user.roles.forEach(role =>{%>
+      <%if(userRoles.includes(role)){%>
+            <%- item %>
+        <%}%>
+      <%})%>
+    <%}%>

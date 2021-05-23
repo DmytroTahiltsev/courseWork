@@ -63,12 +63,16 @@ class authController{
             req.session.user=user
             
             const token= generateAccessToken(user._id, user.roles)
-            res.json({token})
+            res.redirect('/')
            
         }catch(e){
             console.log(e)
             res.status(4).json({message:'login error'})
         }
+    }
+    async logout(req, res){
+        req.session.user=undefined
+        res.redirect('/')
     }
     async getUsers(req, res){
         try{

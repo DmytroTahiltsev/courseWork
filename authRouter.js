@@ -14,7 +14,6 @@ router.get('/registration', (req, res)=>{
     })
 })
 router.get('/login', (req, res)=>{
-
     res.render('login',{
         status:0
     })
@@ -25,6 +24,7 @@ router.post('/registration',urlencodedParser, [
 ],controller.registration)
 router.post('/login',urlencodedParser, controller.login)
 router.get('/users', authMiddleware,controller.getUsers)
+router.get('/logout',controller.logout)
 
 
 module.exports=router
