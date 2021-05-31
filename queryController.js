@@ -12,7 +12,7 @@ class queryController{
     }
     postQuery1(req, res){
         if(!req.body) return res.sendStatus(400);
-        let query='SELECT * FROM mydb.тс_організації WHERE `Дата випуску`' + ` BETWEEN "${req.body["date-1"]}" AND "${req.body["date-2"]}";`
+        let query='SELECT * FROM mydb.organization_vehicle WHERE `Дата випуску`' + ` BETWEEN "${req.body["date-1"]}" AND "${req.body["date-2"]}";`
        
         connection.query(query, (err, result, fields) =>{
           if(err){
@@ -35,18 +35,21 @@ class queryController{
     }
     postQuery2(req, res){
         if(!req.body) return res.sendStatus(400);
-            let query='SELECT * FROM mydb.`транспортний_засіб`' + ` WHERE Номер = "${req.body["numb"]}";`
+            let query='SELECT * FROM mydb.vehicle' + ` WHERE Номер = "${req.body["numb"]}";`
             connection.query(query, (err, result, fields) =>{
               if(err){
                 return console.log(err)
               }
+              if(!result.length){
+                return res.json({message:`Некоректные данные`})
+              }
               if(result[0]["Вид власника"]==="Організація"){
-                let query= 'SELECT `Назва організації` FROM mydb.тс_організації WHERE `Номер ТС` =' + `"${req.body["numb"]}"`;
+                let query= 'SELECT `Назва організації` FROM mydb.organization_vehicle WHERE `Номер ТС` =' + `"${req.body["numb"]}"`;
                 connection.query(query, (err, result, fields)=>{
                   if(err){
                     return console.log(err)
                   }
-                  let query= 'SELECT * FROM mydb.організації WHERE `Назва організації` =' + `'${result[0]["Назва організації"]}'`;
+                  let query= 'SELECT * FROM mydb.organizations WHERE `Назва організації` =' + `'${result[0]["Назва організації"]}'`;
                   connection.query(query, (err, result, fields)=>{
                     if(err){
                       return console.log(err)
@@ -61,16 +64,17 @@ class queryController{
                 })
               } 
               else if(result[0]["Вид власника"]==="Приватний"){
-                let query= 'SELECT id FROM mydb.тс_приватні_власники WHERE `Номер ТС` =' + `"${req.body["numb"]}"`;
+                let query= 'SELECT private_owners_id FROM mydb.private_vehicle WHERE `Номер ТС` =' + `"${req.body["numb"]}"`;
                 connection.query(query, (err, result, fields)=>{
                   if(err){
                     return console.log(err)
                   }     
-                  let query= 'SELECT * FROM mydb.приватні_власники WHERE id =' + `'${result[0]["id"]}'`;
+                  let query= 'SELECT * FROM mydb.private_owners WHERE id =' + `'${result[0]["private_owners_id"]}'`;
                   connection.query(query, (err, result, fields)=>{
                     if(err){
                       return console.log(err)
                     }
+                    console.log(result)
                     res.render('query2-output', {
                       user:req.session.user,
                       queryData:result,
@@ -90,8 +94,8 @@ class queryController{
     postQuery3(req, res){
 
       if(!req.body) return res.sendStatus(400);
-          let query='SELECT * FROM mydb.`транспортний_засіб`' + ` WHERE Номер = "${req.body["numb"]}";`
-          let Accidentquery='SELECT * FROM mydb.дтп WHERE' + ` LOCATE("${req.body["numb"]}",` + '`Номери автомобілей`)'
+          let query='SELECT * FROM mydb.vehicle' + ` WHERE Номер = "${req.body["numb"]}";`
+          let Accidentquery='SELECT * FROM mydb.accident_vehicle WHERE `Номер ТС`' + ` ="${req.body["numb"]}"`
           let accident=0
           connection.query(Accidentquery, (err, result, fields)=>{
             if(err){
@@ -105,8 +109,11 @@ class queryController{
             if(err){
               return console.log(err)
             }
+            if(!result.length){
+              return res.json({message:`Некоректные данные`})
+            }
             if(result[0]["Вид власника"]==="Організація"){
-              let query= 'SELECT * FROM mydb.тс_організації WHERE `Номер ТС` =' + `"${req.body["numb"]}"`;
+              let query= 'SELECT * FROM mydb.organization_vehicle WHERE `Номер ТС` =' + `"${req.body["numb"]}"`;
               connection.query(query, (err, result, fields)=>{
                 if(err){
                   return console.log(err)
@@ -121,7 +128,7 @@ class queryController{
               })
             } 
             else if(result[0]["Вид власника"]==="Приватний"){
-              let query= 'SELECT * FROM mydb.тс_приватні_власники WHERE `Номер ТС` =' + `"${req.body["numb"]}"`;
+              let query= 'SELECT * FROM mydb.private_vehicle WHERE `Номер ТС` =' + `"${req.body["numb"]}"`;
               connection.query(query, (err, result, fields)=>{
                 if(err){
                   return console.log(err)
@@ -157,7 +164,7 @@ class queryController{
     vehData=Object.values(vehData)
     vehData.splice(2, 0, "Приватний");
     console.log(vehData)
-    validQuery=`SELECT * FROM mydb.транспортний_засіб WHERE Номер= "${vehData[0]}";`
+    validQuery=`SELECT * FROM mydb.vehicle WHERE Номер= "${vehData[0]}";`
     connection.query(validQuery, function(err, result, fields){
       if (err) {
         console.log(err);
@@ -194,7 +201,7 @@ class queryController{
     vehData=Object.values(vehData)
     vehData.splice(2, 0, "Організація");
     console.log(vehData)
-    validQuery=`SELECT * FROM mydb.транспортний_засіб WHERE Номер= "${vehData[0]}";`
+    validQuery=`SELECT * FROM mydb.vehicle WHERE Номер= "${vehData[0]}";`
     connection.query(validQuery, function(err, result, fields){
       if (err) {
         console.log(err);

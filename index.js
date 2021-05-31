@@ -48,6 +48,7 @@ const start= async()=>{
         app.post('/addVehicle/addOrganizationVehicle', urlencodedParser, roleMiddleware(['ADMIN']), query.postOrganizationVehicle)
         app.get('/deleteVehicle', roleMiddleware(['ADMIN']), query.deleteVehicle)
         app.post('/deleteVehicle', urlencodedParser, roleMiddleware(['ADMIN']), query.postDeleteVehicle)
+
         await mongoose.connect('mongodb+srv://Dima:Dima1604@cluster0.7pprm.mongodb.net/Users?retryWrites=true&w=majority')
         app.listen(PORT, ()=> console.log(`server has been started on PORT ${PORT}`))
     }catch(e){
